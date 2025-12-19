@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  api-product:
+    container_name: api-product
+    build: .
+    ports:
+      - "3333:3333"
+    env_file:
+      - .env
+    restart: always
