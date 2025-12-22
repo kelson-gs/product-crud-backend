@@ -12,7 +12,6 @@ import {
 import { productsRepository } from '../repositories/products.repository';
 import { authenticate } from '../middleware/authenticate';
 import { http } from '../utils/http';
-// colocar o autenticate
 
 export async function productsRoutes(app: FastifyTypeInstance) {
     app.post('/product', {
@@ -22,9 +21,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
             description: 'Criação de novo produto',
             body: createProductSchema,
             response: {
-                201: z.object({
-                    data: productsSchema
-                }),
+                201: productsSchema,
                 404: z.object({
                     message: z.string().describe('Data is empty!')
                 }),
@@ -60,9 +57,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
             tags: ['products'],
             description: 'Buscando todos os produtos',
             response: {
-                200: z.object({
-                    data: [getProductSchema]
-                }),
+                200: getProductSchema,
                 404: z.object({
                     message: z.string().describe('Products not found!')
                 }),
@@ -94,9 +89,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
             description: 'Buscando um produto',
             params: getOnlyProductSchema,
             response: {
-                200: z.object({
-                    data: getProductSchema
-                }),
+                200: getProductSchema,
                 404: z.object({
                     message: z.string().describe('Products not found!')
                 }),
@@ -130,9 +123,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
             description: 'Atualizar produto',
             body: updateProductSchema,
             response: {
-                200: z.object({
-                    data: updateProductSchema
-                }),
+                200: updateProductSchema,
                 500: z.object({
                     message: z.string().describe('Internal server error!')
                 })
@@ -158,9 +149,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
             description: 'Atualizar status do produto',
             body: updateStatusProductSchema,
             response: {
-                200: z.object({
-                    data: updateProductSchema
-                }),
+                200: updateProductSchema,
                 500: z.object({
                     message: z.string().describe('Internal server error!')
                 })

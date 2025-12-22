@@ -9,7 +9,7 @@ export const productsSchema = z.object({
 });
 
 export const createProductSchema = productsSchema.omit({ id: true });
-export const getProductSchema = productsSchema;
+export const getProductSchema = productsSchema.array();
 export const getOnlyProductSchema = productsSchema.pick({ id: true });
 export const updateProductSchema = productsSchema;
 export const updateStatusProductSchema = productsSchema.pick({ id: true, status: true });
