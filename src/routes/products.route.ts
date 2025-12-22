@@ -1,24 +1,26 @@
 import z from 'zod';
 import { FastifyTypeInstance } from '../typeInstances';
 import {
-    createProduct,
-    deleteProduct,
+    createProductSchema,
+    deleteProductSchema,
     getProductSchema,
     getOnlyProductSchema,
     productsSchema,
-    updateProduct,
-    updateStatusProduct
+    updateProductSchema,
+    updateStatusProductSchema
 } from '../schema/products.schema';
 import { productsRepository } from '../repositories/products.repository';
+import { authenticate } from '../middleware/authenticate';
 import { http } from '../utils/http';
 // colocar o autenticate
 
 export async function productsRoutes(app: FastifyTypeInstance) {
     app.post('/product', {
+        preHandler: [authenticate],
         schema: {
             tags: ['products'],
             description: 'Criação de novo produto',
-            body: createProduct,
+            body: createProductSchema,
             response: {
                 201: z.object({
                     data: productsSchema
@@ -36,7 +38,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
         }
     }, async (request, reply) => {
         try {
-            const body = createProduct.parse(request.body);
+            const body = createProductSchema.parse(request.body);
 
             if (!body) {
                 return http.notFound(reply, 'Data is empty');
@@ -53,6 +55,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
 
 
     app.get('/products', {
+        preHandler: [authenticate],
         schema: {
             tags: ['products'],
             description: 'Buscando todos os produtos',
@@ -85,6 +88,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
     })
 
     app.get('/product/:id', {
+        preHandler: [authenticate],
         schema: {
             tags: ['products'],
             description: 'Buscando um produto',
@@ -120,13 +124,14 @@ export async function productsRoutes(app: FastifyTypeInstance) {
     })
 
     app.put('/product', {
+        preHandler: [authenticate],
         schema: {
             tags: ['products'],
             description: 'Atualizar produto',
-            body: updateProduct,
+            body: updateProductSchema,
             response: {
                 200: z.object({
-                    data: updateProduct
+                    data: updateProductSchema
                 }),
                 500: z.object({
                     message: z.string().describe('Internal server error!')
@@ -135,7 +140,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
         }
     }, async (request, reply) => {
         try {
-            const body = updateProduct.parse(request.body);
+            const body = updateProductSchema.parse(request.body);
 
             const product = await productsRepository.update(body);
 
@@ -147,13 +152,14 @@ export async function productsRoutes(app: FastifyTypeInstance) {
     })
 
     app.put('/product/status', {
+        preHandler: [authenticate],
         schema: {
             tags: ['products'],
             description: 'Atualizar status do produto',
-            body: updateStatusProduct,
+            body: updateStatusProductSchema,
             response: {
                 200: z.object({
-                    data: updateProduct
+                    data: updateProductSchema
                 }),
                 500: z.object({
                     message: z.string().describe('Internal server error!')
@@ -162,7 +168,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
         }
     }, async (request, reply) => {
         try {
-            const body = updateProduct.parse(request.body);
+            const body = updateStatusProductSchema.parse(request.body);
 
             const product = await productsRepository.updateStatus(body);
 
@@ -174,10 +180,11 @@ export async function productsRoutes(app: FastifyTypeInstance) {
     })
 
     app.delete('/product', {
+        preHandler: [authenticate],
         schema: {
             tags: ['products'],
             description: 'Deletar produto',
-            body: deleteProduct,
+            body: deleteProductSchema,
             response: {
                 200: z.object({
                     message: z.string().describe("Product deleted!")
@@ -189,7 +196,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
         }
     }, async (request, reply) => {
          try {
-            const body = updateProduct.parse(request.body);
+            const body = updateProductSchema.parse(request.body);
 
             const product = await productsRepository.delete(body);
 

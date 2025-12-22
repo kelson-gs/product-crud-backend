@@ -8,15 +8,10 @@ export const productsSchema = z.object({
     image: z.string().nullable()
 });
 
-export const createProduct = productsSchema.omit({ id: true });
-
+export const createProductSchema = productsSchema.omit({ id: true });
 export const getProductSchema = productsSchema;
-
 export const getOnlyProductSchema = productsSchema.pick({ id: true });
-
-export const updateProduct = productsSchema;
-
-export const updateStatusProduct = productsSchema.pick({ id: true, status: true });
-
-export const deleteProduct = productsSchema.pick({ id: true });
+export const updateProductSchema = productsSchema;
+export const updateStatusProductSchema = productsSchema.pick({ id: true, status: true });
+export const deleteProductSchema = productsSchema.pick({ id: true });
 
