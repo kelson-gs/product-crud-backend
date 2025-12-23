@@ -1,7 +1,7 @@
 import z from 'zod';
 import bcrypt from 'bcryptjs';
 import { FastifyInstance } from 'fastify';
-import { loginUserSchema, userSchema, createUserSchema } from '../schema/user.schema';
+import { loginUserSchema, userSchema, createUserSchema, createUserResponse } from '../schema/user.schema';
 import { userRepository } from '../repositories/user.repository';
 import { http } from '../utils/http';
 
@@ -12,9 +12,7 @@ export async function authRoutes(app: FastifyInstance) {
             description: 'Registro de usuário',
             body: createUserSchema,
             response: {
-                201: z.object({
-                    data: userSchema
-                }),
+                201: createUserResponse,
                 404: z.object({
                     message: z.string().describe('Data is empty!')
                 }),
@@ -41,7 +39,9 @@ export async function authRoutes(app: FastifyInstance) {
             const hashed = await bcrypt.hash(body.password, 10);
             const user = await userRepository.create({ ...body, password: hashed });
 
-            return http.created(reply, user);
+            const { password, ...userWithoutPassword } = user;
+
+            return http.created(reply, userWithoutPassword);
         } catch (error) {
             console.error("Houve um erro ao cadastrar usuário: ", error);
             return http.serverError(reply);

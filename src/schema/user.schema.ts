@@ -8,6 +8,7 @@ export const userSchema = z.object({
 })
 
 export const createUserSchema = userSchema.omit({ id: true });
+export const createUserResponse = userSchema.omit({password: true});
 export const getByEmailSchema = userSchema.pick({email: true});
 export const getByIdSchema = userSchema.pick({id: true});
 export const updateUserSchema = userSchema;
