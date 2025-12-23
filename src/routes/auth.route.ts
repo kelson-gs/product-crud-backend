@@ -28,7 +28,7 @@ export async function authRoutes(app: FastifyInstance) {
         }
     }, async (request, reply) => {
         try {
-            const body = userSchema.parse(request.body);
+            const body = createUserSchema.parse(request.body);
             if (!body) {
                 return http.notFound(reply, 'Data is empty');
             }
