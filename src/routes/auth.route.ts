@@ -1,7 +1,7 @@
 import z from 'zod';
 import bcrypt from 'bcryptjs';
 import { FastifyInstance } from 'fastify';
-import { loginUserSchema, userSchema } from '../schema/user.schema';
+import { loginUserSchema, userSchema, createUserSchema } from '../schema/user.schema';
 import { userRepository } from '../repositories/user.repository';
 import { http } from '../utils/http';
 
@@ -10,7 +10,7 @@ export async function authRoutes(app: FastifyInstance) {
         schema: {
             tags: ['auth'],
             description: 'Registro de usuário',
-            body: userSchema,
+            body: createUserSchema,
             response: {
                 201: z.object({
                     data: userSchema
