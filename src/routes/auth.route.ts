@@ -65,7 +65,7 @@ export async function authRoutes(app: FastifyInstance) {
         }
     }, async (request, reply) => {
         try {
-            const body = userSchema.parse(request.body);
+            const body = loginUserSchema.parse(request.body);
             const user = await userRepository.getByEmail({ email: body.email });
             if (!user) {
                 return http.notFound(reply, 'Email inválido');
