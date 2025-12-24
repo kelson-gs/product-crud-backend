@@ -185,7 +185,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
         }
     }, async (request, reply) => {
          try {
-            const body = updateProductSchema.parse(request.body);
+            const body = deleteProductSchema.parse(request.body);
 
             const product = await productsRepository.delete(body);
 
