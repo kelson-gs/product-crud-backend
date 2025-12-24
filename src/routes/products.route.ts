@@ -15,7 +15,7 @@ import { http } from '../utils/http';
 
 export async function productsRoutes(app: FastifyTypeInstance) {
     app.post('/product', {
-        preHandler: [authenticate],
+        
         schema: {
             tags: ['products'],
             description: 'Criação de novo produto',
@@ -52,7 +52,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
 
 
     app.get('/products', {
-        preHandler: [authenticate],
+        
         schema: {
             tags: ['products'],
             description: 'Buscando todos os produtos',
@@ -83,7 +83,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
     })
 
     app.get('/product/:id', {
-        preHandler: [authenticate],
+        
         schema: {
             tags: ['products'],
             description: 'Buscando um produto',
@@ -117,7 +117,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
     })
 
     app.put('/product', {
-        preHandler: [authenticate],
+        
         schema: {
             tags: ['products'],
             description: 'Atualizar produto',
@@ -143,7 +143,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
     })
 
     app.put('/product/status', {
-        preHandler: [authenticate],
+        
         schema: {
             tags: ['products'],
             description: 'Atualizar status do produto',
@@ -169,7 +169,7 @@ export async function productsRoutes(app: FastifyTypeInstance) {
     })
 
     app.delete('/product', {
-        preHandler: [authenticate],
+        
         schema: {
             tags: ['products'],
             description: 'Deletar produto',
